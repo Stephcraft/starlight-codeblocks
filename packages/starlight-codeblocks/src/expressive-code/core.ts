@@ -18,6 +18,7 @@ import {
   type ElementContent,
   EXIT,
   h,
+  matches,
   type Parents,
   select,
   selectAll,
@@ -79,6 +80,7 @@ const decorations = [
   'squiggle-popover',
   'squiggle-list',
   'hidden-marker',
+  'skip-marker',
   'expandable-bar',
   'steps-stepper',
   'steps-controls',
@@ -95,6 +97,8 @@ const decorations = [
  * Gives each decoration the one class that tools reading the HTML can drop, such as starlight-llms-txt,
  * and keeps it out of the Pagefind index. Keep the list in step with new decorations.
  */
+export const isDecoration = (node: ElementContent) => node.type === 'element' && matches(decorations, node);
+
 export function markDecorations(root: Parents) {
   for (const element of selectAll(decorations, root)) {
     const classes = element.properties.className as string[];
@@ -238,12 +242,13 @@ export function blockSetting<T>(
   parse: (raw: string) => T | undefined,
   fallback: T,
   expected: string,
+  otherwise = 'The block uses the site setting.',
 ): T {
   const option = context.codeBlock.metaOptions.list(key).at(-1);
   if (!option) return fallback;
   const value = parse(String(option.value));
   if (value !== undefined) return value;
-  warn(context, `\`${option.raw.trim()}\` must be ${expected}. The block uses the site setting.`);
+  warn(context, `\`${option.raw.trim()}\` must be ${expected}. ${otherwise}`);
   return fallback;
 }
 

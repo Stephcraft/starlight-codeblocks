@@ -348,6 +348,18 @@ export const attributesReference: AttributeDoc[] = [
     },
   },
   {
+    name: 'runnable.args',
+    syntax: ['runnable.args="<arguments>"'],
+    description:
+      'Command line arguments for the code, separated by spaces, with quotes around an argument that has spaces. In Python, `sys.argv` holds the title of the block, or `main.py`, and the arguments.',
+    page: 'features/run-code',
+    example: {
+      lang: 'py',
+      meta: 'runnable title="greet.py" runnable.args="Ada"',
+      code: 'import sys\nprint(f"Hello, {sys.argv[1]}!")',
+    },
+  },
+  {
     name: 'runnable.button',
     syntax: ['runnable.button="below"', 'runnable.button="title"', 'runnable.button="both"'],
     description:
@@ -773,6 +785,19 @@ export const styleSettingsReference: Record<string, StyleGroupDoc> = {
         derived: '`codeForeground` at 4% opacity.',
       },
       openOpacity: { description: 'The opacity of the code of a hidden line that shows.' },
+    },
+  },
+  codeblocksSkippedCode: {
+    page: 'features/skipped-code',
+    settings: {
+      badgeBackground: {
+        description: 'The background of the text on a marker.',
+        derived: '`codeblocks.mutedForeground` at 10% opacity on the code background.',
+      },
+      rule: {
+        description: 'The dotted rule of a marker.',
+        derived: '`codeblocks.mutedForeground` at 35% opacity.',
+      },
     },
   },
   codeblocksRunnable: {
